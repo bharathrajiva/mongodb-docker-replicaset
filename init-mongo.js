@@ -10,6 +10,6 @@ rs.initiate({
 
 db.createUser({
   user: 'admin',
-  pwd: 'examplePassword',
+  pwd: 'bman192',
   roles: [{ role: 'root', db: 'admin' }]
 });
