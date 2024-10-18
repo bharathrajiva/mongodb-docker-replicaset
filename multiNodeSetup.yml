@@ -2,44 +2,57 @@ services:
   mongo1:
     image: mongo:7.0
     container_name: mongo1
-    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017", "--keyFile", "/data/configdb/mongo-keyfile"]
     ports:
       - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: bman192
+    volumes:
+      - "mongo1_data:/data/db"
+      - "mongo1_config:/data/configdb"
+      - "./mongo-keyfile:/data/configdb/mongo-keyfile:ro"
+      - "./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     healthcheck:
-      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'host.docker.internal:27017',priority:1},{_id:1,host:'host.docker.internal:27018',priority:0.5},{_id:2,host:'host.docker.internal:27019',priority:0.5}]}) }" | mongosh --port 27017 --quiet
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'host.docker.internal:27017',priority:1},{_id:1,host:'host.docker.internal:27018',priority:0.5},{_id:2,host:'host.docker.internal:27019',priority:0.5}]}) }" | mongosh --port 27017 --quiet --username admin --password bman192 --authenticationDatabase admin
       interval: 10s
       timeout: 30s
       start_period: 5s
       retries: 50
-    volumes:
-      - "mongo1_data:/data/db"
-      - "mongo1_config:/data/configdb"
 
   mongo2:
     container_name: mongo2
     image: mongo:7.0
-    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27018"]
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27018", "--keyFile", "/data/configdb/mongo-keyfile"]
     ports:
       - 27018:27018
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: bman192
     volumes:
       - "mongo2_data:/data/db"
       - "mongo2_config:/data/configdb"
+      - "./mongo-keyfile:/data/configdb/mongo-keyfile:ro"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   mongo3:
     container_name: mongo3
     image: mongo:7.0
-    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27019"]
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27019", "--keyFile", "/data/configdb/mongo-keyfile"]
     ports:
       - 27019:27019
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: bman192
     volumes:
       - "mongo3_data:/data/db"
       - "mongo3_config:/data/configdb"
+      - "./mongo-keyfile:/data/configdb/mongo-keyfile:ro"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 volumes:
   mongo1_data:
