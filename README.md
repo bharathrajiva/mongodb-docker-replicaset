@@ -4,8 +4,8 @@
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/bharathrajiva/mongodb-docker-auth-replicaset.git
-   cd ./mongodb-docker-auth-replicaset
+   git clone https://github.com/bharathrajiva/mongodb-docker-replicaset.git
+   cd ./mongodb-docker-replicaset
    ```
 
 2. **Create the necessary volumes**:
