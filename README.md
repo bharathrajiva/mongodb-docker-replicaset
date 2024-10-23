@@ -190,7 +190,7 @@ You can access the MongoDB instances through the following ports:
 - **Primary**: `27017`
 - **Secondary 1**: `27018`
 - **Secondary 2**: `27019`
-- **Connection URI**: `mongodb://127.0.0.1:27017,127.0.0.1:27018,127.0.0.1:27019/?replicaSet=rs0`
+- **Connection URI**: `mongodb://admin:bman192@127.0.0.1:27017,127.0.0.1:27018,127.0.0.1:27019/?replicaSet=rs0`
 
 ## Stopping the Services
 
